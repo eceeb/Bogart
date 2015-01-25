@@ -18,10 +18,10 @@ import de.eliyo.utils.Crawler;
 @Singleton
 public class Job {
 
+	@Inject Crawler search;
+	@Inject MailSender mail;
 	@Inject	WantedService service;
 	@Inject WebsiteLoader website; 
-	@Inject MailSender mail;
-	@Inject Crawler search;
 
 	private static final Logger logger = Logger.getLogger( Job.class.getName() );
 	
