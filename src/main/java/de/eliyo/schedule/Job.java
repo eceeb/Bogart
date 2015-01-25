@@ -26,7 +26,7 @@ public class Job {
 	private static final Logger logger = Logger.getLogger( Job.class.getName() );
 	
 	@Schedule(minute = "*/10", hour = "*")
-	public void doJob() throws Exception {
+	public void doJob() {
 		
 		logger.log(Level.INFO, "starting job");
 		
