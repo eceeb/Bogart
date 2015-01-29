@@ -1,5 +1,6 @@
 package de.eliyo.schedule;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,6 +36,8 @@ public class Job {
 				String body = website.load(w.getUrl()).getBody();
 				logger.log( Level.INFO, "searching for {0} on {1}", new Object[]{w.getSeek(), w.getUrl()});
 				processResult(w, body);
+			} catch (MalformedURLException x){
+				logger.log( Level.SEVERE, x.toString(), x );
 			} catch (Exception x) {
 				mail.notifyAdmin(x);
 				logger.log( Level.SEVERE, x.toString(), x );

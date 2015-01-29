@@ -30,7 +30,7 @@ public class MailSender {
 	private String content;
 	
 	public void notifyAdmin(Exception x) {
-		to("eliyo@me.com").withSubject("something went wrong").withContent(x + "\n" + x.getStackTrace()).send();
+		to("eliyo@me.com").withSubject("something went wrong").withContent(x.toString()).send();
 	}
 	
 	public void notifySubsriber(String email, String seek, String url) {
