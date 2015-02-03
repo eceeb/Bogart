@@ -13,6 +13,7 @@ public class WebsiteLoader {
 
 	private String websiteUrl;
 	private String body;
+	private boolean previouslyLoaded;
 
 	public WebsiteLoader load(String websiteUrl) {
 		if (websiteUrl.equals(this.websiteUrl))
