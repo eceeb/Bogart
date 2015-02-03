@@ -23,7 +23,7 @@ public class WantedService {
 
 		searches.clear();
 		Statement stmt = getConnection().createStatement();
-		ResultSet resultSet = stmt.executeQuery("select * from wanted where found=false");
+		ResultSet resultSet = stmt.executeQuery("select * from wanted where found=false order by url");
 
 		return mappElements(resultSet);
 	}
