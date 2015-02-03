@@ -12,19 +12,27 @@ import org.apache.commons.io.IOUtils;
 public class WebsiteLoader {
 
 	private String websiteUrl;
+	private String body;
 
 	public WebsiteLoader load(String websiteUrl) {
+		if (websiteUrl.equals(this.websiteUrl)
+			previouslyLoaded = true;
+		else
+			previouslyLoaded = false;
 		this.websiteUrl = websiteUrl;
 		return this;
 	}
 
 	public String getBody() throws Exception {
+		if(previouslyLoaded)
+			return body;
+			
 		URL url = new URL(websiteUrl);
 		URLConnection con = url.openConnection();
 		InputStream in = con.getInputStream();
 		String encoding = con.getContentEncoding();
 		encoding = encoding == null ? "UTF-8" : encoding;
-
-		return IOUtils.toString(in, encoding);
+		body = IOUtils.toString(in, encoding);
+		return body;
 	}
 }
