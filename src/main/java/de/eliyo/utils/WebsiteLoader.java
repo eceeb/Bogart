@@ -15,7 +15,7 @@ public class WebsiteLoader {
 	private String body;
 
 	public WebsiteLoader load(String websiteUrl) {
-		if (websiteUrl.equals(this.websiteUrl)
+		if (websiteUrl.equals(this.websiteUrl))
 			previouslyLoaded = true;
 		else
 			previouslyLoaded = false;
