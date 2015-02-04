@@ -17,12 +17,10 @@ public class WebsiteLoader {
 
 	public WebsiteLoader load(String websiteUrl) {
 
-		if (previouslyLoaded(websiteUrl)) {
-			System.out.println(websiteUrl + " was prev loaded...");
+		if (previouslyLoaded(websiteUrl))
 			return this;
-		}
-		this.websiteUrl = websiteUrl;
 
+		this.websiteUrl = websiteUrl;
 		body = loadBody();
 
 		return this;
