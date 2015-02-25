@@ -46,6 +46,12 @@ public class Job {
 	}
 
 
+	@Schedule
+	public void dailyJob() {
+		logger.log(Level.INFO, "midnight test");
+	}
+
+
 	private void processResult(Wanted w, String body) throws Exception {
 		if (search.in(body).after(w.getSeek())) {
 			mail.notifySubsriber(w.getEmail(), w.getSeek(), w.getUrl());
@@ -53,7 +59,7 @@ public class Job {
 		}
 	}
 
-	
+
 	private List<Wanted> getActiveSearches() {
 		
 		List<Wanted> activeSearches;
