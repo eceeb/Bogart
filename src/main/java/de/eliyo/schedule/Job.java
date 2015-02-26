@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.Schedule;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import de.eliyo.entity.Wanted;
@@ -16,7 +16,7 @@ import de.eliyo.utils.WebsiteLoader;
 import de.eliyo.utils.MailSender;
 import de.eliyo.utils.Crawler;
 
-@Singleton
+@Stateless
 public class Job {
 
 	@Inject Crawler search;
