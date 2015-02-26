@@ -29,7 +29,7 @@ public class ServiceTest {
 
 	@Test
 	public void database_Access_Works() throws Exception {
-		assertTrue(new WantedService().getAllWanted().size() >= 0);
+		assertTrue(new WantedService().getAllWantedForInterval(10).size() >= 0);
 	}
 	
 	@Test

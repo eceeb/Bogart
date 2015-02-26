@@ -26,29 +26,51 @@ public class Job {
 
 	private static final Logger logger = Logger.getLogger( Job.class.getName() );
 	
+	
 	@Schedule(minute = "*/10", hour = "*")
 	public void doJob() {
 		
-		logger.log(Level.INFO, "starting job");
-		
-		for (Wanted w : getActiveSearches()) {
-			try {
-				String body = website.load(w.getUrl()).getBody();
-				logger.log( Level.INFO, "searching for {0} on {1}", new Object[]{w.getSeek(), w.getUrl()});
-				processResult(w, body);
-			} catch (MalformedURLException x){
-				logger.log( Level.SEVERE, x.toString(), x );
-			} catch (Exception x) {
-				mail.notifyAdmin(x);
-				logger.log( Level.SEVERE, x.toString(), x );
-			}
+		for (Wanted w : getActiveSearchesForInterval(10)) {
+			searchFor(w);
 		}
 	}
 
 
 	@Schedule
 	public void dailyJob() {
-		logger.log(Level.INFO, "midnight test");
+		for (Wanted w : getActiveSearchesForInterval(1440)) {
+			searchFor(w);
+		}
+	}
+	
+	
+	private List<Wanted> getActiveSearchesForInterval(int minutes) {
+		
+		List<Wanted> activeSearches;
+		try {
+			activeSearches = service.getAllWantedForInterval(minutes);
+			logger.log( Level.INFO, "got {0} active searches for {1} minutes interval", 
+					new Object[]{activeSearches.size(), String.valueOf(minutes)});
+		} catch (Exception x){
+			mail.notifyAdmin(x);
+			logger.log( Level.SEVERE, x.toString(), x );
+			return new ArrayList<Wanted>();
+		}
+		return activeSearches;
+	}
+	
+	
+	private void searchFor(Wanted w) {
+		try {
+			String body = website.load(w.getUrl()).getBody();
+			logger.log( Level.INFO, "searching for {0} on {1}", new Object[]{w.getSeek(), w.getUrl()});
+			processResult(w, body);
+		} catch (MalformedURLException x){
+			logger.log( Level.SEVERE, x.toString(), x );
+		} catch (Exception x) {
+			mail.notifyAdmin(x);
+			logger.log( Level.SEVERE, x.toString(), x );
+		}
 	}
 
 
@@ -57,21 +79,6 @@ public class Job {
 			mail.notifySubsriber(w.getEmail(), w.getSeek(), w.getUrl());
 			service.markAsFound(w);
 		}
-	}
-
-
-	private List<Wanted> getActiveSearches() {
-		
-		List<Wanted> activeSearches;
-		try {
-			activeSearches = service.getAllWanted();
-			logger.log( Level.INFO, "got {0} active searches from database", activeSearches.size() );
-		} catch (Exception x){
-			mail.notifyAdmin(x);
-			logger.log( Level.SEVERE, x.toString(), x );
-			return new ArrayList<Wanted>();
-		}
-		return activeSearches;
 	}
 
 }

@@ -19,11 +19,11 @@ public class WantedService {
 	private Connection con;
 	private List<Wanted> searches = new ArrayList<Wanted>(); 
 	
-	public List<Wanted> getAllWanted() throws Exception {
+	public List<Wanted> getAllWantedForInterval(int minutes) throws Exception {
 
 		searches.clear();
 		Statement stmt = getConnection().createStatement();
-		ResultSet resultSet = stmt.executeQuery("select * from wanted where found=false order by url");
+		ResultSet resultSet = stmt.executeQuery("select * from wanted where found=false and interval=" + minutes + " order by url");
 
 		return mappElements(resultSet);
 	}
