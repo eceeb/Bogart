@@ -9,11 +9,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 
 import de.eliyo.entity.Wanted;
 
-@Singleton
+@Stateless
 public class WantedService {
 
 	private Connection con;
