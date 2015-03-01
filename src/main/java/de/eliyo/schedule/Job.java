@@ -44,7 +44,7 @@ public class Job {
 	}
 	
 	
-	private List<Wanted> getActiveSearchesForInterval(int minutes) {
+	private synchronized List<Wanted> getActiveSearchesForInterval(int minutes) {
 		
 		List<Wanted> activeSearches;
 		try {
