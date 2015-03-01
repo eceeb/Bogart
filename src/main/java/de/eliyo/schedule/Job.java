@@ -6,17 +6,20 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Schedule;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
 import javax.inject.Inject;
 
 import de.eliyo.entity.Wanted;
 import de.eliyo.service.WantedService;
-import de.eliyo.utils.WebsiteLoader;
-import de.eliyo.utils.MailSender;
 import de.eliyo.utils.Crawler;
+import de.eliyo.utils.MailSender;
+import de.eliyo.utils.WebsiteLoader;
 
-@Stateless
+@Singleton
+@Lock(LockType.WRITE)
 public class Job {
 
 	@Inject Crawler search;
@@ -29,7 +32,6 @@ public class Job {
 	
 	@Schedule(minute = "*/10", hour = "*")
 	public void doJob() {
-		
 		for (Wanted w : getActiveSearchesForInterval(10)) {
 			searchFor(w);
 		}
@@ -44,7 +46,7 @@ public class Job {
 	}
 	
 	
-	private synchronized List<Wanted> getActiveSearchesForInterval(int minutes) {
+	private List<Wanted> getActiveSearchesForInterval(int minutes) {
 		
 		List<Wanted> activeSearches;
 		try {

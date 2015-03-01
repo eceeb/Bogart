@@ -37,7 +37,6 @@ public class MailSender {
 		to(email).withSubject("found something").withContent("found " + seek + " on " + url).send();
 	}
 	
-	// TODO: remove fluent style
 	private MailSender to(String toAddress) {
 		this.toAddress = toAddress;
 		return this;
