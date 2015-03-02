@@ -19,7 +19,7 @@ import de.eliyo.utils.MailSender;
 import de.eliyo.utils.WebsiteLoader;
 
 @Singleton
-@Lock(LockType.WRITE)
+@Lock(LockType.READ)
 public class Job {
 
 	@Inject Crawler search;
@@ -47,7 +47,6 @@ public class Job {
 	
 	
 	private List<Wanted> getActiveSearchesForInterval(int minutes) {
-		
 		List<Wanted> activeSearches;
 		try {
 			activeSearches = service.getAllWantedForInterval(minutes);

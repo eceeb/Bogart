@@ -3,11 +3,11 @@ package de.eliyo.utils;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 
 import org.apache.commons.lang3.StringUtils;
 
-@Singleton
+@Stateless
 public class Crawler {
 
 	private String body;

@@ -1,22 +1,20 @@
 package de.eliyo.utils;
 
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 
 import org.apache.commons.io.IOUtils;
 
-@Singleton
+@Stateless
 public class WebsiteLoader {
 
 	private String body;
 	private String websiteUrl;
 
 	public WebsiteLoader load(String websiteUrl) {
-
 		if (previouslyLoaded(websiteUrl))
 			return this;
 

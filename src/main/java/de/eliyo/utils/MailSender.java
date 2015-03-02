@@ -4,7 +4,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -15,7 +15,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 
-@Singleton
+@Stateless
 public class MailSender {
 	
 	private static final Logger logger = Logger.getLogger( MailSender.class.getName() );
