@@ -31,13 +31,19 @@ public class Job {
 	
 	
 	@Schedule(minute = "*/10", hour = "*")
-	public void doJob() {
+	public void every10Minutes() {
 		for (Wanted w : getActiveSearchesForInterval(10)) {
 			searchFor(w);
 		}
 	}
 
-
+	@Schedule(hour = "*")
+	public void hourlyJob() {
+		for (Wanted w : getActiveSearchesForInterval(60)) {
+			searchFor(w);
+		}
+	}
+	
 	@Schedule
 	public void dailyJob() {
 		for (Wanted w : getActiveSearchesForInterval(1440)) {
