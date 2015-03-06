@@ -59,7 +59,7 @@ public class MailSender {
 		} catch (AddressException e1) {
 			e1.printStackTrace();
 		}
-		String from = "elcSearchEngine@paradise.com";
+		String from = "Service@search-that-site.com";
 		Transport transport = null;
 
 		Properties properties = System.getProperties();

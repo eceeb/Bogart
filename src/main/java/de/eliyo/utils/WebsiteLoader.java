@@ -36,6 +36,7 @@ public class WebsiteLoader {
 			String encoding = con.getContentEncoding();
 			encoding = encoding == null ? "UTF-8" : encoding;
 			body = IOUtils.toString(in, encoding);
+				
 		} catch (Exception x) {
 			logger.log( Level.SEVERE, x.toString(), x );
 		}
