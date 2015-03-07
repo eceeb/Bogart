@@ -22,11 +22,12 @@ public class MailSender {
 	private static final String SMTP_AUTH_PWD  = System.getenv("MANDRILL_SMTP_AUTH_PWD");
 	private static final String SMTP_HOST_NAME = "smtp.mandrillapp.com";
 	private static final String SMTP_PORT_NUM  = "587";
+	private static final String ADMIN_MAIL_ADDRESS = System.getenv("ADMIN_MAIL_ADDRESS");
 
 	private static final Logger logger = Logger.getLogger( MailSender.class.getName() );
 	
 	public void notifyAdmin(Exception x) {
-		send("eliyo@me.com", "somethind went wrong", x.toString());
+		send(ADMIN_MAIL_ADDRESS, "somethind went wrong", x.toString());
 	}
 	
 	public void notifySubsriber(String email, String seek, String url) {
