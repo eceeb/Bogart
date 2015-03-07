@@ -3,6 +3,8 @@ package de.eliyo.utils;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 
@@ -13,6 +15,8 @@ public class WebsiteLoader {
 
 	private String body;
 	private String websiteUrl;
+
+	private static final Logger logger = Logger.getLogger( WebsiteLoader.class.getName() );
 
 	public WebsiteLoader load(String websiteUrl) {
 		if (previouslyLoaded(websiteUrl))
@@ -33,7 +37,7 @@ public class WebsiteLoader {
 			encoding = encoding == null ? "UTF-8" : encoding;
 			body = IOUtils.toString(in, encoding);
 		} catch (Exception x) {
-			return "";
+			logger.log( Level.SEVERE, x.toString(), x );
 		}
 		return body;
 	}
