@@ -22,7 +22,7 @@ public class Crawler {
 		if (StringUtils.containsIgnoreCase(body, searchString))
 			return true;
 
-		logger.log( Level.INFO, "nothing found for {0}", searchString );
+		logger.log( Level.INFO, "#### nothing found for {0}", searchString );
 		return false;
 	}
 }

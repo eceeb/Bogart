@@ -56,7 +56,7 @@ public class Job {
 		List<Wanted> activeSearches;
 		try {
 			activeSearches = service.getAllWantedForInterval(minutes);
-			logger.log( Level.INFO, "got {0} active searches for {1} minutes interval", 
+			logger.log( Level.INFO, "#### got {0} active searches for {1} minutes interval", 
 					new Object[]{activeSearches.size(), String.valueOf(minutes)});
 		} catch (Exception x){
 			mail.notifyAdmin(x);
@@ -70,7 +70,7 @@ public class Job {
 	private void searchFor(Wanted w) {
 		try {
 			String body = website.loadBody(w.getUrl());
-			logger.log( Level.INFO, "searching for {0} on {1}", new Object[]{w.getSeek(), w.getUrl()});
+			logger.log( Level.INFO, "#### searching for {0} on {1}", new Object[]{w.getSeek(), w.getUrl()});
 			processResult(w, body);
 		} catch (MalformedURLException x){
 			logger.log( Level.SEVERE, x.toString(), x );

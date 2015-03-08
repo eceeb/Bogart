@@ -7,25 +7,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
 
 @Stateless
 public class WebsiteLoader {
 
-	private String body;
-	private String websiteUrl;
-
 	private static final Logger logger = Logger.getLogger( WebsiteLoader.class.getName() );
-
+	
+	@Inject SearchCache cache;
 
 	public String loadBody(String websiteUrl) {
-		
-		if(previouslyLoaded(websiteUrl))
+		cache = new SearchCache();
+		String body = cache.load(websiteUrl);
+		if (body != null){
+			logger.log(Level.INFO, "#### found in cache: " + websiteUrl);
 			return body;
-		
-		this.websiteUrl = websiteUrl;
-		
+		}
 		try {
 			URL url = new URL(websiteUrl);
 			URLConnection con = url.openConnection();
@@ -33,15 +32,10 @@ public class WebsiteLoader {
 			String encoding = con.getContentEncoding();
 			encoding = encoding == null ? "UTF-8" : encoding;
 			body = IOUtils.toString(in, encoding);
-				
+			cache.store(websiteUrl, body);
 		} catch (Exception x) {
 			logger.log( Level.SEVERE, x.toString(), x );
 		}
 		return body;
 	}
-
-	private boolean previouslyLoaded(String websiteUrl) {
-		return websiteUrl.equals(this.websiteUrl);
-	}
-
 }
