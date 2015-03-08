@@ -69,7 +69,7 @@ public class Job {
 	
 	private void searchFor(Wanted w) {
 		try {
-			String body = website.load(w.getUrl()).getBody();
+			String body = website.loadBody(w.getUrl());
 			logger.log( Level.INFO, "searching for {0} on {1}", new Object[]{w.getSeek(), w.getUrl()});
 			processResult(w, body);
 		} catch (MalformedURLException x){

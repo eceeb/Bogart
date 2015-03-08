@@ -31,7 +31,7 @@ public class MailSender {
 	}
 	
 	public void notifySubsriber(String email, String seek, String url) {
-		String content = "Hello, I found '" + seek + "' on: " + "url";
+		String content = "Hello, I found '" + seek + "' on: " + url;
 		send(email, "Found something", content);
 	}
 	

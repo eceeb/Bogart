@@ -18,17 +18,14 @@ public class WebsiteLoader {
 
 	private static final Logger logger = Logger.getLogger( WebsiteLoader.class.getName() );
 
-	public WebsiteLoader load(String websiteUrl) {
-		if (previouslyLoaded(websiteUrl))
-			return this;
 
+	public String loadBody(String websiteUrl) {
+		
+		if(previouslyLoaded(websiteUrl))
+			return body;
+		
 		this.websiteUrl = websiteUrl;
-		body = loadBody();
-
-		return this;
-	}
-
-	private String loadBody() {
+		
 		try {
 			URL url = new URL(websiteUrl);
 			URLConnection con = url.openConnection();
@@ -47,7 +44,4 @@ public class WebsiteLoader {
 		return websiteUrl.equals(this.websiteUrl);
 	}
 
-	public String getBody() {
-		return body;
-	}
 }

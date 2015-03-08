@@ -29,7 +29,7 @@ public class ServiceTest {
 	
 	@Test
 	public void search_is_Successfull() throws Exception {
-		String body = new WebsiteLoader().load("http://google.de").getBody();
+		String body = new WebsiteLoader().loadBody("http://google.de");
 		boolean found = new Crawler().in(body).after("a");
 		assertTrue(found);
 	}
