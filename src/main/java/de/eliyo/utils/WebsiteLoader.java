@@ -19,7 +19,6 @@ public class WebsiteLoader {
 	@Inject SearchCache cache;
 
 	public String loadBody(String websiteUrl) {
-		cache = new SearchCache();
 		String body = cache.load(websiteUrl);
 		if (body != null){
 			logger.log(Level.INFO, "#### found in cache: " + websiteUrl);
