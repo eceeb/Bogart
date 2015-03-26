@@ -18,10 +18,10 @@ public class ServiceTest {
 	public static void tearDownAfterClass() throws Exception {
 	}
 
-	@Test
-	public void database_Access_Works() throws Exception {
-		assertTrue(new WantedService().getAllWantedForInterval(10).size() >= 0);
-	}
+//	@Test
+//	public void database_Access_Works() throws Exception {
+//		assertTrue(new WantedService().getAllWantedForInterval(10).size() >= 0);
+//	}
 
 //	@Test
 //	public void search_is_Successfull() throws Exception {
