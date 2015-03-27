@@ -1,8 +1,8 @@
 package de.eliyo.utils;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,17 +24,21 @@ public class WebsiteLoader {
 			logger.log(Level.INFO, "#### found in cache: " + websiteUrl);
 			return body;
 		}
+		
 		try {
-			URL url = new URL(websiteUrl);
-			URLConnection con = url.openConnection();
-			InputStream in = con.getInputStream();
-			String encoding = con.getContentEncoding();
-			encoding = encoding == null ? "UTF-8" : encoding;
-			body = IOUtils.toString(in, encoding);
+			URLConnection con = new URL(websiteUrl).openConnection();
+			String encoding = getWebsiteEncoding(con.getContentEncoding());
+			body = IOUtils.toString(con.getInputStream(), encoding);
 			cache.store(websiteUrl, body);
 		} catch (Exception x) {
 			logger.log( Level.SEVERE, x.toString(), x );
 		}
 		return body;
+	}
+
+	private String getWebsiteEncoding(String encoding) {
+		if(encoding == null || !Charset.availableCharsets().containsKey(encoding))
+			encoding = "UTF-8";
+		return encoding;
 	}
 }
