@@ -14,12 +14,15 @@ public class SearchCache {
 	private AuthDescriptor ad;
 	
 	public SearchCache() {
-		ad = new AuthDescriptor(new String[] { "PLAIN" }, new PlainCallbackHandler("a1204c", "dd38af880d"));
+		String user = System.getenv("MEMCACHE_USER");
+		String pass = System.getenv("MEMCACHE_PASS");
+				
+		ad = new AuthDescriptor(new String[] { "PLAIN" }, new PlainCallbackHandler(user, pass));
 		try {
 			mc = new MemcachedClient(
 					new ConnectionFactoryBuilder()
 							.setProtocol(ConnectionFactoryBuilder.Protocol.BINARY)
-							.setAuthDescriptor(ad).build(),	AddrUtil.getAddresses("mc3.dev.ec2.memcachier.com:11211"));
+							.setAuthDescriptor(ad).build(),	AddrUtil.getAddresses("mc3.dev.eu.ec2.memcachier.com:11211"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
