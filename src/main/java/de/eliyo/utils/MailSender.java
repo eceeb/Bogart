@@ -39,8 +39,7 @@ public class MailSender {
 		try {
 			InternetAddress internetAddress = null;
 			internetAddress = new InternetAddress(toAddress);
-			
-			String from = "Service@search-that-site.com";
+
 			Transport transport = null;
 	
 			Properties properties = System.getProperties();
@@ -55,7 +54,7 @@ public class MailSender {
 			Session session = Session.getDefaultInstance(properties, auth);
 	
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(from));
+			message.setFrom(new InternetAddress("Service@search-that-site.com"));
 			message.setRecipient(Message.RecipientType.TO, internetAddress);
 			message.setSubject(subject);
 			message.setContent(content, "text/plain");
