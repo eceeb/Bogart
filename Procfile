@@ -1,1 +1,1 @@
-worker: sh target/bin/webapp
+web: node ./bin/www

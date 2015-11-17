@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+var app      = require('../app')
+var http     = require('http')
+var website  = require('../libs/website')
+var database = require('../libs/database')
+
+
+app.set('port', process.env.PORT)
+
+var searchInterval = process.argv[2]
+console.log('Start searches for ' + searchInterval + ' minutes interval')
+
+var searchProcess = function (foundSearches) {
+
+	foundSearches.forEach(function (doc) {
+		doc.found || website.load(doc)
+	})
+}
+
+database.select(searchInterval, searchProcess)
