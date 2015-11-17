@@ -4,7 +4,7 @@
 	"description": "Search-That-Site-Grazer",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodejs ./bin/www"
+		"start": "node ./bin/www"
   },
 	"dependencies": {
 		"pg" : "~4.3.0",
