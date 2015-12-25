@@ -12,11 +12,14 @@ module.exports = function () {
     return {
 
         after : function (row, body) {
-            $ = cheerio.load(body);
-            var query = $('div.selected-price').text().trim()
-            var price = query.replace(',', '.').replace('€', '').trim()
-            console.log('Found price... ' + price)
-            if (price <= row.seek) {
+            $ = cheerio.load(body)
+            var priceElement = $('div.selected-price').text().trim()
+            var actualPrice  = priceElement.replace(',', '.').match(/\d+\.?\d*/)
+            var desiredPrice = row.seek.replace(',', '.').match(/\d+\.?\d*/)
+
+            console.log('Gta price: ' + actualPrice)
+
+            if (parseFloat(actualPrice) <= parseFloat(desiredPrice)) {
                 row.found = true
                 mail.send(row)
                 markAsFound(row)
