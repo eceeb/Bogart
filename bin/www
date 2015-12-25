@@ -8,7 +8,7 @@ var database = require('../libs/database')
 app.set('port', process.env.PORT)
 
 var searchInterval = process.argv[2]
-console.log('Start searches for ' + searchInterval + ' minutes interval')
+console.log('Starting search for ' + searchInterval + ' minutes interval...')
 
 var searchProcess = function (foundSearches) {
 

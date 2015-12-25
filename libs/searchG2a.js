@@ -24,9 +24,6 @@ module.exports = function () {
                 mail.send(row)
                 markAsFound(row)
             }
-
-            var txt = row.found ? 'Found something for: ' : 'Nothing found for: '
-            console.log(txt + row.seek)
         },
     }
 }()

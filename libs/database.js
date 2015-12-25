@@ -7,6 +7,7 @@ var db = function() {
 
 	// TODO consider using a callback
 	emitter.on('foundRow', function (doc) {
+		console.log('Found a search entry, updating document..')
 		db.update(doc)
 	})
 
