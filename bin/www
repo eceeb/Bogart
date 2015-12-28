@@ -12,9 +12,19 @@ console.log('Starting search for ' + searchInterval + ' minutes interval...')
 
 var searchProcess = function (foundSearches) {
 
-	foundSearches.forEach(function (doc) {
-		doc.found || website.load(doc)
+	var urlToSearches = new Map()
+
+	foundSearches.forEach( function (doc) {
+
+		if (doc.found) return
+
+		if (urlToSearches.get(doc.url))
+			urlToSearches.get(doc.url).push(doc)
+		else
+			urlToSearches.set(doc.url, [doc])
 	})
+
+	website.load(urlToSearches)
 }
 
 database.select(searchInterval, searchProcess)
