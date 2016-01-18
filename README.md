@@ -1,4 +1,4 @@
-Backend for [Search-That-Website](https://search-that-site.herokuapp.com)
+Backend for [Humphrey](https://humphrey.herokuapp.com)
 
 
 A simple, scheduled, automated website search service.
