@@ -5,10 +5,6 @@ var emitter = require('./emitter')
 
 module.exports = function () {
 
-    function markAsFound (row) {
-        emitter.emit('foundRow', row)
-    }
-
     return {
 
         after : function (row, body) {
@@ -22,7 +18,7 @@ module.exports = function () {
             if (parseFloat(actualPrice) <= parseFloat(desiredPrice)) {
                 row.found = true
                 mail.send(row)
-                markAsFound(row)
+                emitter.emit('foundRow', row)
             }
         },
     }
