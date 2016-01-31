@@ -1,8 +1,10 @@
-#!/usr/bin/env node
-var app      = require('../app')
-var http     = require('http')
-var website  = require('../libs/website')
-var database = require('../libs/database')
+var http      = require('http')
+var app       = require('../app')
+var mail      = require('../libs/mail')
+var search    = require('../libs/search')
+var website   = require('../libs/website')
+var database  = require('../libs/database')
+var searchG2a = require('../libs/searchG2a')
 
 
 app.set('port', process.env.PORT)
@@ -10,21 +12,24 @@ app.set('port', process.env.PORT)
 var searchInterval = process.argv[2]
 console.log('Starting search for ' + searchInterval + ' minutes interval...')
 
-var searchProcess = function (foundSearches) {
+var whenSelected = function (doc) {
 
-	var urlToSearches = new Map()
+	// for future features the query will return also found elements
+	if (doc.found) return
 
-	foundSearches.forEach( function (doc) {
-
-		if (doc.found) return
-
-		if (urlToSearches.get(doc.url))
-			urlToSearches.get(doc.url).push(doc)
+	var whenLoaded = function (body) {
+		if (~doc.url.search('www.g2a.com'))
+			doc.found = searchG2a.after(doc.seek, body)
 		else
-			urlToSearches.set(doc.url, [doc])
-	})
+			doc.found = search.after(doc.seek, body)
 
-	website.load(urlToSearches)
+		if (doc.found) {
+			mail.send(doc)
+			database.update(doc)
+		}
+	}
+
+	website.load(doc.url, whenLoaded)
 }
 
-database.select(searchInterval, searchProcess)
+database.select(searchInterval, whenSelected)

@@ -1,43 +1,36 @@
 var mongodb = require('mongodb')
-var emitter = require('./emitter')
 var dbUrl   = process.env.MONGOLAB_URI
 
 
-var db = function() {
+var select = function (interval, callback) {
 
-	// TODO consider using a callback
-	emitter.on('foundRow', function (doc) {
-		console.log('Found a search entry, updating document..')
-		db.update(doc)
+	mongodb.MongoClient.connect(dbUrl, function (err, db) {
+		if (err) throw err
+
+		var searches = db.collection('searches')
+		var cursor   = searches.find({ interval : { $eq: interval } })
+		cursor.each(function(err, doc) {
+			if ( err || doc == null)
+				db.close()
+			else
+				callback(doc)
+		})
 	})
+}
 
-	return  {
+var update = function (row) {
 
-		select : function (interval, callback) {
+	mongodb.MongoClient.connect(dbUrl, function (err, db) {
+		if (err) throw err
 
-			mongodb.MongoClient.connect(dbUrl, function (err, db) {
-				if (err) throw err
+		var searches = db.collection('searches')
+		searches.update({_id : row._id}, row, function (err, result) {
+			db.close()
+		})
+	})
+}
 
-				var searches = db.collection('searches')
-				searches.find({ interval : { $eq: interval } }).toArray(function (err, docs) {
-					db.close()
-					callback(docs)
-				})
-			})
-		},
-
-		update : function(row) {
-
-			mongodb.MongoClient.connect(dbUrl, function (err, db) {
-				if (err) throw err
-
-				var searches = db.collection('searches')
-				searches.update({_id : row._id}, row, function (err, result) {
-					db.close()
-				})
-			})
-		}
-	}
-}()
-
-module.exports = db
+module.exports = {
+    select: select,
+    update: update
+}

@@ -1,31 +1,23 @@
-var request   = require('request')
-var search    = require('./search')
-var searchG2a = require('./searchG2a')
+var request        = require('request')
+var cachedRequest  = require('cached-request')(request)
+var cacheDirectory = "../tmp/cache"
 
 module.exports = function() {
 
-	function searchWebsiteForEntries (searches, url) {
-
-		request(url, function (error, response, body) {
-			for(var i in searches) {
-				if (!error && response.statusCode == 200) {
-					if (~url.search('www.g2a.com'))
-						searchG2a.after(searches[i], body)
-					else
-						search.after(searches[i], body)
-				}
-			}
-		})
-
-	}
+    function options(url) {
+        this.url = url
+        this.ttl = 10 * 1000
+    }
 
 	return {
 
-		load : function(urlToSearches) {
-
-			urlToSearches.forEach( function(values, key) {
-				searchWebsiteForEntries(values, key)
-			}, urlToSearches)
+		load : function(url, callback) {
+            
+			var opts = new options(url)
+			cachedRequest(opts, function (error, response, body) {
+				if (!error && response.statusCode == 200)
+					callback(body)
+			})
 		},
 	}
 }()

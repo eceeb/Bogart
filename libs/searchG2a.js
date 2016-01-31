@@ -1,25 +1,20 @@
 var cheerio = require('cheerio')
-var mail    = require('./mail')
-var emitter = require('./emitter')
-
 
 module.exports = function () {
 
     return {
 
-        after : function (row, body) {
+        after : function (seek, body) {
+
             $ = cheerio.load(body)
             var priceElement = $('div.selected-price').text().trim()
             var actualPrice  = priceElement.replace(',', '.').match(/\d+\.?\d*/)
-            var desiredPrice = row.seek.replace(',', '.').match(/\d+\.?\d*/)
+            var desiredPrice = seek.replace(',', '.').match(/\d+\.?\d*/)
 
-            console.log('Gta price: ' + actualPrice)
+            // This logging is for email notification via papertrail
+            actualPrice || console.log('Gta price: null')
 
-            if (parseFloat(actualPrice) <= parseFloat(desiredPrice)) {
-                row.found = true
-                mail.send(row)
-                emitter.emit('foundRow', row)
-            }
-        },
+            return parseFloat(actualPrice) <= parseFloat(desiredPrice)
+        }
     }
 }()

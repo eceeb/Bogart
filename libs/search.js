@@ -1,20 +1,12 @@
-var mail    = require('./mail')
-var emitter = require('./emitter')
-
-
 module.exports = function () {
 
 	return {
 
-		after : function (row, body) {
+		after : function (keyword, body) {
 
-			var reg = new RegExp(row.seek, "i")
+			var reg = new RegExp(keyword, "i")
 
-			if (~body.search(reg)) {
-				row.found = true
-				mail.send(row)
-				emitter.emit('foundRow', row)
-			}
-		},
+			return ~body.search(reg) ? true : false
+		}
 	}
 }()
