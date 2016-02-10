@@ -1,12 +1,12 @@
 module.exports = function () {
 
-	return {
+    return {
 
-		after : function (keyword, body) {
+        after : function (keyword, body) {
 
-			var reg = new RegExp(keyword, "i")
+            var reg = new RegExp(keyword, "i")
 
-			return ~body.search(reg) ? true : false
-		}
-	}
+            return ~body.search(reg) ? true : false
+        }
+    }
 }()
