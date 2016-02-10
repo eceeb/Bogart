@@ -11,9 +11,9 @@ var mail = function () {
             var content = 'Found: ' + row.seek + ' on ' + row.url
 
             var message = {
-                'to'           : [row.email],
+                'to'          : [row.email],
                 'async'       : false,
-                'ip_pool'       : 'Main Pool',
+                'ip_pool'     : 'Main Pool',
                 'from_name'   : 'Search-That-Site',
                 'from_email'  : 'noreply@Search-That-Site.com',
                 'raw_message' : 'Subject: Found something\n\n' + content,
