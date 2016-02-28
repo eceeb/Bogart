@@ -1,5 +1,5 @@
 var should  = require('should')
-var search  = require('../libs/search')
+var search  = require('../libs/search/searchGeneric')
 
 
 describe('search', function() {

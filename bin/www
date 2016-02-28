@@ -1,10 +1,9 @@
 var http      = require('http')
 var app       = require('../app')
 var mail      = require('../libs/mail')
-var search    = require('../libs/search')
+var search    = require('../libs/search/search')
 var website   = require('../libs/website')
 var database  = require('../libs/database')
-var searchG2a = require('../libs/searchG2a')
 
 
 app.set('port', process.env.PORT)
@@ -18,11 +17,7 @@ var whenSelected = function (doc) {
     if (doc.found) return
 
     var whenLoaded = function (body) {
-        if (~doc.url.search('www.g2a.com'))
-            doc.found = searchG2a.after(doc.seek, body)
-        else
-            doc.found = search.after(doc.seek, body)
-
+        doc.found = search.after(doc, body)
         if (doc.found) {
             mail.send(doc)
             database.update(doc)

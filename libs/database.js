@@ -1,7 +1,6 @@
 var mongodb = require('mongodb')
 var dbUrl   = process.env.MONGOLAB_URI
 
-
 var select = function (interval, callback) {
 
     mongodb.MongoClient.connect(dbUrl, function (err, db) {
