@@ -1,5 +1,5 @@
-var mandrill = require('mandrill-api/mandrill')
-var client   = new mandrill.Mandrill(process.env.MANDRILL_APIKEY)
+var nodemailer  = require('nodemailer')
+var transporter = nodemailer.createTransport(process.env.EMAIL_URI)
 
 
 var mail = function () {
@@ -7,23 +7,20 @@ var mail = function () {
     return {
 
         send : function (row) {
-
-            var content = 'Found: ' + row.seek + ' on ' + row.url
-
-            var message = {
-                'to'          : [row.email],
-                'async'       : false,
-                'ip_pool'     : 'Main Pool',
-                'from_name'   : 'Search-That-Site',
-                'from_email'  : 'noreply@Search-That-Site.com',
-                'raw_message' : 'Subject: Found something\n\n' + content,
+           
+            var mailOptions = {
+                to      : row.email, 
+                text    : 'Checkout ' + row.url,
+                subject : 'Hurray found something...',
+                from    : '"Humphrey Notification" <humphrey.notify@hotmail.com>'
             }
 
-            client.messages.sendRaw(message, function (result) {
-                    console.log(result)
-                }, function(e) {
-                    console.log('Fatal error could not send mailing!');
-            });
+            transporter.sendMail(mailOptions, function(error, info) {
+                if (error)
+                    console.log('Fatal mailing error: ' + error)
+                else
+                    console.log(info)
+            })
         }
     }
 }()
