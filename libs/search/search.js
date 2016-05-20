@@ -8,8 +8,18 @@ module.exports = function () {
         after : function (doc, body) {
             if (~doc.url.search('www.g2a.com'))
                 return searchG2a.after(doc.seek, body)
-            else
+
+            if (!doc.endlessSearch)
                 return searchGeneric.after(doc.seek, body)
+
+            var actuallyFound = searchGeneric.after(doc.seek, body)
+            if (!doc.found && actuallyFound)
+                return doc.found = true
+
+            if (doc.found && !actuallyFound)
+                return doc.found = false
+
+            return false
         }
     }
 }()

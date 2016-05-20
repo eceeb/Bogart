@@ -13,15 +13,13 @@ console.log('Starting search for ' + searchInterval + ' minutes interval...')
 
 var whenSelected = function (doc) {
 
-    // for future features the query will return also found elements
-    if (doc.found) return
+    if (doc.found && !doc.endlessSearch) return
 
     var whenLoaded = function (body) {
-        doc.found = search.after(doc, body)
-        if (doc.found) {
+        if (search.after(doc, body)) 
             mail.send(doc)
-            database.update(doc)
-        }
+
+        database.update(doc)
     }
 
     website.load(doc.url, whenLoaded)

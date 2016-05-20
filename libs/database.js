@@ -9,7 +9,7 @@ var select = function (interval, callback) {
         var searches = db.collection('searches')
         var cursor   = searches.find({ interval : { $eq: interval } })
         cursor.each(function(err, doc) {
-            if ( err || doc == null)
+            if (err || doc == null)
                 db.close()
             else
                 callback(doc)
